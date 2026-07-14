@@ -1,0 +1,1275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kunal Pratap Singh - Senior Wealth Advisor & Technical Asset Architect</title>
+    <style>
+        :root {
+            --canvas: #F0F0F3;
+            --shadow-dark: #a3b1c6;
+            --shadow-light: #ffffff;
+            --text-primary: #1a1d2e;
+            --text-secondary: #3a3f55;
+            --text-muted: #5a5f72;
+            --accent-gold: #C5A880;
+            --accent-gold-light: #d9c5a0;
+            --accent-bronze: #a8895c;
+            --card-bg: #e8eaef;
+            --card-bg-alt: #ebedf2;
+            --inset-shadow: inset 4px 4px 10px rgba(163, 177, 198, 0.5), inset -4px -4px 10px rgba(255, 255, 255, 0.8);
+            --outset-shadow: 9px 9px 16px rgba(163, 177, 198, 0.6), -9px -9px 16px rgba(255, 255, 255, 0.9);
+            --outset-shadow-sm: 5px 5px 10px rgba(163, 177, 198, 0.5), -5px -5px 10px rgba(255, 255, 255, 0.85);
+            --outset-shadow-lg: 14px 14px 24px rgba(163, 177, 198, 0.55), -14px -14px 24px rgba(255, 255, 255, 0.95);
+            --pressed-shadow: inset 6px 6px 14px rgba(163, 177, 198, 0.65), inset -6px -6px 14px rgba(255, 255, 255, 0.7);
+            --gold-line: 1px solid rgba(197, 168, 128, 0.5);
+            --gold-line-strong: 1.5px solid rgba(197, 168, 128, 0.8);
+            --transition-smooth: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1.2);
+            --transition-slow: all 0.6s cubic-bezier(0.22, 0.61, 0.36, 1);
+            --font-heading: 'Georgia', 'Times New Roman', serif;
+            --font-body: 'Segoe UI', 'Inter', 'Helvetica Neue', sans-serif;
+            --font-mono: 'SF Mono', 'Consolas', 'Monaco', monospace;
+            --radius-sm: 14px;
+            --radius-md: 22px;
+            --radius-lg: 30px;
+            --radius-xl: 40px;
+            --nav-height: 72px;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
+            background-color: var(--canvas);
+            color: var(--text-primary);
+            font-family: var(--font-body);
+            line-height: 1.7;
+            overflow-x: hidden;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* ============ SVG ANIMATED BACKGROUND ============ */
+        #bg-svg-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.35;
+        }
+        #bg-svg-container svg {
+            width: 100%;
+            height: 100%;
+        }
+        .bg-grid-line {
+            stroke: #c5b89a;
+            stroke-width: 0.6;
+            stroke-dasharray: 4 12;
+            animation: gridFloat 18s linear infinite;
+        }
+        .bg-grid-line:nth-child(2) {
+            animation-delay: -6s;
+            animation-duration: 22s;
+        }
+        .bg-grid-line:nth-child(3) {
+            animation-delay: -12s;
+            animation-duration: 20s;
+        }
+        .bg-grid-line:nth-child(4) {
+            animation-delay: -3s;
+            animation-duration: 24s;
+        }
+        .bg-grid-line:nth-child(5) {
+            animation-delay: -9s;
+            animation-duration: 19s;
+        }
+        .bg-grid-line:nth-child(6) {
+            animation-delay: -15s;
+            animation-duration: 26s;
+        }
+        .bg-dot {
+            fill: #C5A880;
+            opacity: 0.5;
+            animation: dotPulse 4s ease-in-out infinite;
+        }
+        .bg-dot:nth-child(odd) {
+            animation-delay: -2s;
+        }
+
+        @keyframes gridFloat {
+            0% {
+                transform: translateY(0) translateX(0);
+                opacity: 0.5;
+            }
+            25% {
+                transform: translateY(-30px) translateX(15px);
+                opacity: 0.7;
+            }
+            50% {
+                transform: translateY(-10px) translateX(-10px);
+                opacity: 0.4;
+            }
+            75% {
+                transform: translateY(-40px) translateX(8px);
+                opacity: 0.65;
+            }
+            100% {
+                transform: translateY(0) translateX(0);
+                opacity: 0.5;
+            }
+        }
+        @keyframes dotPulse {
+            0%,
+            100% {
+                opacity: 0.35;
+                r: 2.5;
+            }
+            50% {
+                opacity: 0.75;
+                r: 4;
+            }
+        }
+
+        /* ============ MAIN WRAPPER ============ */
+        .main-wrapper {
+            position: relative;
+            z-index: 1;
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 0 28px;
+        }
+
+        /* ============ NAVIGATION ============ */
+        .nav-bar {
+            position: sticky;
+            top: 18px;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 32px;
+            margin: 18px auto 0;
+            max-width: 1300px;
+            border-radius: var(--radius-xl);
+            background: var(--canvas);
+            box-shadow: var(--outset-shadow);
+            transition: var(--transition-smooth);
+        }
+        .nav-logo {
+            font-family: var(--font-heading);
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: 0.03em;
+            white-space: nowrap;
+        }
+        .nav-logo span {
+            color: var(--accent-bronze);
+        }
+        .nav-links {
+            display: flex;
+            gap: 28px;
+            list-style: none;
+            align-items: center;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-weight: 500;
+            font-size: 0.9rem;
+            letter-spacing: 0.02em;
+            position: relative;
+            padding: 6px 0;
+            transition: var(--transition-smooth);
+            white-space: nowrap;
+        }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-gold);
+            border-radius: 2px;
+            transition: width 0.35s cubic-bezier(0.25, 0.8, 0.25, 1.2);
+        }
+        .nav-links a:hover {
+            color: var(--accent-bronze);
+            transform: scale(1.04);
+        }
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        .nav-cta {
+            background: var(--canvas);
+            box-shadow: var(--outset-shadow-sm);
+            border: none;
+            padding: 10px 22px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+            letter-spacing: 0.03em;
+            color: var(--accent-bronze);
+            transition: var(--transition-smooth);
+            white-space: nowrap;
+            font-family: var(--font-body);
+        }
+        .nav-cta:hover {
+            box-shadow: var(--pressed-shadow);
+            transform: scale(0.96);
+            color: #8a6d45;
+        }
+        .nav-cta:active {
+            box-shadow: var(--pressed-shadow);
+            transform: scale(0.94);
+        }
+
+        /* Mobile nav toggle */
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            flex-direction: column;
+            gap: 5px;
+            padding: 8px;
+            z-index: 101;
+        }
+        .nav-toggle span {
+            display: block;
+            width: 26px;
+            height: 3px;
+            background: var(--text-primary);
+            border-radius: 3px;
+            transition: var(--transition-smooth);
+        }
+
+        /* ============ HERO / ADVISOR CHASSIS ============ */
+        .hero-section {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            align-items: center;
+            padding: 50px 0 40px;
+            min-height: 70vh;
+        }
+        .hero-text {
+            flex: 1 1 420px;
+        }
+        .hero-badge {
+            display: inline-block;
+            padding: 8px 18px;
+            border-radius: 30px;
+            background: var(--canvas);
+            box-shadow: var(--inset-shadow);
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 0.06em;
+            color: var(--accent-bronze);
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+        .hero-text h1 {
+            font-family: var(--font-heading);
+            font-size: clamp(2rem, 4.5vw, 3.2rem);
+            font-weight: 700;
+            line-height: 1.2;
+            color: var(--text-primary);
+            letter-spacing: -0.01em;
+            animation: heroLetterSpacing 1.6s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+        }
+        @keyframes heroLetterSpacing {
+            0% {
+                letter-spacing: 0.15em;
+                opacity: 0;
+            }
+            60% {
+                letter-spacing: -0.02em;
+                opacity: 0.9;
+            }
+            100% {
+                letter-spacing: -0.01em;
+                opacity: 1;
+            }
+        }
+        .hero-text h2 {
+            font-family: var(--font-body);
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--text-muted);
+            margin-top: 8px;
+            letter-spacing: 0.02em;
+            animation: fadeInUp 1.2s 0.3s both;
+        }
+        .hero-text .hero-quote {
+            margin-top: 22px;
+            font-size: 1rem;
+            color: var(--text-secondary);
+            font-style: italic;
+            border-left: 3px solid var(--accent-gold);
+            padding-left: 18px;
+            line-height: 1.6;
+            animation: fadeInUp 1.2s 0.5s both;
+        }
+        @keyframes fadeInUp {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .hero-image-frame {
+            flex: 0 0 320px;
+            width: 320px;
+            height: 380px;
+            border-radius: var(--radius-lg);
+            background: var(--canvas);
+            box-shadow: var(--outset-shadow-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 1.2s 0.4s both;
+        }
+        .hero-image-inner {
+            width: 85%;
+            height: 85%;
+            border-radius: var(--radius-md);
+            background: linear-gradient(145deg, #d9dce3, #f5f6fa);
+            box-shadow: var(--inset-shadow);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .hero-image-inner svg {
+            width: 80px;
+            height: 80px;
+            opacity: 0.7;
+        }
+        .hero-image-inner img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            border-radius: inherit;
+        }
+        .hero-image-inner .profile-initials {
+            font-family: var(--font-heading);
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--accent-bronze);
+            letter-spacing: 0.05em;
+        }
+        .hero-image-inner .profile-label {
+            font-size: 0.7rem;
+            letter-spacing: 0.08em;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+        .hero-accent-ring {
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 2px solid rgba(197, 168, 128, 0.4);
+            pointer-events: none;
+            animation: ringPulse 3s ease-in-out infinite;
+        }
+        @keyframes ringPulse {
+            0%,
+            100% {
+                transform: scale(1);
+                opacity: 0.5;
+            }
+            50% {
+                transform: scale(1.25);
+                opacity: 0.2;
+            }
+        }
+
+        /* ============ SECTION HEADERS ============ */
+        .section-header {
+            text-align: center;
+            padding: 30px 0 10px;
+        }
+        .section-header h2 {
+            font-family: var(--font-heading);
+            font-size: clamp(1.6rem, 3vw, 2.2rem);
+            color: var(--text-primary);
+            letter-spacing: 0.01em;
+            position: relative;
+            display: inline-block;
+        }
+        .section-header h2::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 3px;
+            background: var(--accent-gold);
+            margin: 12px auto 0;
+            border-radius: 3px;
+        }
+        .section-header .gold-micro-line {
+            display: block;
+            width: 100px;
+            height: 1px;
+            background: rgba(197, 168, 128, 0.5);
+            margin: 6px auto 0;
+            border-radius: 1px;
+        }
+
+        /* ============ CARD SYSTEM ============ */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 30px;
+            padding: 20px 0 40px;
+        }
+        .card {
+            background: var(--canvas);
+            border-radius: var(--radius-md);
+            box-shadow: var(--outset-shadow);
+            padding: 30px 26px;
+            transition: var(--transition-slow);
+            cursor: default;
+            position: relative;
+            overflow: hidden;
+            transform: scale(0.95);
+            opacity: 0;
+            will-change: transform, opacity, box-shadow;
+        }
+        .card.visible {
+            transform: scale(1);
+            opacity: 1;
+        }
+        .card:hover {
+            box-shadow: var(--outset-shadow-lg);
+            transform: translateY(-4px) scale(1.01);
+        }
+        .card:active {
+            box-shadow: var(--pressed-shadow);
+            transform: scale(0.97);
+        }
+        .card .card-accent-strip {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-gold), var(--accent-gold-light), var(--accent-gold));
+            opacity: 0.7;
+            border-radius: 4px 4px 0 0;
+        }
+        .card h3 {
+            font-family: var(--font-heading);
+            font-size: 1.25rem;
+            color: var(--text-primary);
+            margin-bottom: 10px;
+            letter-spacing: 0.02em;
+        }
+        .card p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+        .card .metric-tag {
+            display: inline-block;
+            padding: 5px 14px;
+            border-radius: 20px;
+            background: var(--canvas);
+            box-shadow: var(--inset-shadow);
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.04em;
+            color: var(--accent-bronze);
+            margin-top: 12px;
+        }
+
+        /* Architecture SVG placeholders inside cards */
+        .arch-svg-frame {
+            width: 100%;
+            height: 180px;
+            border-radius: var(--radius-sm);
+            background: var(--card-bg);
+            box-shadow: var(--inset-shadow);
+            margin-bottom: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        .arch-svg-frame svg {
+            width: 90%;
+            height: 85%;
+        }
+
+        /* ============ TECH INTEGRATION SECTION ============ */
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            padding: 20px 0 30px;
+        }
+        .tech-pill {
+            background: var(--canvas);
+            box-shadow: var(--outset-shadow-sm);
+            border-radius: 40px;
+            padding: 14px 20px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 0.85rem;
+            letter-spacing: 0.03em;
+            color: var(--text-primary);
+            transition: var(--transition-smooth);
+            cursor: default;
+            border: var(--gold-line);
+        }
+        .tech-pill:hover {
+            box-shadow: var(--pressed-shadow);
+            transform: scale(0.96);
+            border-color: var(--accent-gold);
+        }
+        .tech-pill:active {
+            box-shadow: var(--pressed-shadow);
+            transform: scale(0.93);
+        }
+
+        /* ============ SELF-DRAWING SVG FLOWCHART ============ */
+        .flowchart-container {
+            background: var(--canvas);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--outset-shadow-lg);
+            padding: 30px;
+            margin: 30px 0;
+            text-align: center;
+            position: relative;
+        }
+        .flowchart-container svg {
+            max-width: 100%;
+            height: auto;
+        }
+        .flowchart-path {
+            fill: none;
+            stroke: #C5A880;
+            stroke-width: 2.5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            stroke-dasharray: 800;
+            stroke-dashoffset: 800;
+            transition: stroke-dashoffset 2.5s cubic-bezier(0.22, 0.61, 0.36, 1);
+        }
+        .flowchart-path.animate {
+            stroke-dashoffset: 0;
+        }
+        .flowchart-node {
+            fill: #F0F0F3;
+            stroke: #C5A880;
+            stroke-width: 2;
+            rx: 8;
+        }
+        .flowchart-text {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            fill: var(--text-primary);
+            text-anchor: middle;
+            dominant-baseline: central;
+        }
+
+        /* ============ 3D ARCHITECTURAL MOCKUP ============ */
+        .mockup-3d-container {
+            perspective: 900px;
+            width: 100%;
+            height: 380px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 30px 0;
+            background: var(--canvas);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--outset-shadow-lg);
+            overflow: hidden;
+            position: relative;
+        }
+        .mockup-3d-inner {
+            transform-style: preserve-3d;
+            transform: rotateX(55deg) rotateZ(-35deg);
+            width: 280px;
+            height: 280px;
+            position: relative;
+            animation: mockupFloat 8s ease-in-out infinite;
+        }
+        @keyframes mockupFloat {
+            0%,
+            100% {
+                transform: rotateX(55deg) rotateZ(-35deg) translateY(0);
+            }
+            25% {
+                transform: rotateX(55deg) rotateZ(-35deg) translateY(-12px);
+            }
+            50% {
+                transform: rotateX(55deg) rotateZ(-35deg) translateY(-4px);
+            }
+            75% {
+                transform: rotateX(55deg) rotateZ(-35deg) translateY(-16px);
+            }
+        }
+        .mockup-floor {
+            position: absolute;
+            background: rgba(197, 168, 128, 0.25);
+            border: 1.5px solid rgba(197, 168, 128, 0.6);
+            box-shadow: 0 0 20px rgba(197, 168, 128, 0.2);
+        }
+        .mockup-floor-1 {
+            width: 240px;
+            height: 240px;
+            bottom: 0;
+            left: 20px;
+            border-radius: 8px;
+        }
+        .mockup-floor-2 {
+            width: 200px;
+            height: 200px;
+            bottom: 50px;
+            left: 40px;
+            border-radius: 6px;
+            background: rgba(197, 168, 128, 0.35);
+        }
+        .mockup-floor-3 {
+            width: 150px;
+            height: 150px;
+            bottom: 110px;
+            left: 65px;
+            border-radius: 4px;
+            background: rgba(197, 168, 128, 0.45);
+        }
+        .mockup-pillar {
+            position: absolute;
+            width: 8px;
+            background: rgba(197, 168, 128, 0.5);
+            border-radius: 2px;
+            transform-origin: bottom center;
+        }
+
+        /* ============ WEALTH DISTRIBUTION VECTOR ============ */
+        .wealth-vector-wrap {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px 0;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .wealth-vector-wrap svg {
+            max-width: 500px;
+            width: 100%;
+            height: auto;
+        }
+
+        /* ============ SEARCH FIELD ============ */
+        .search-field-wrap {
+            display: flex;
+            justify-content: center;
+            padding: 20px 0;
+        }
+        .search-field {
+            background: var(--canvas);
+            box-shadow: var(--inset-shadow);
+            border: none;
+            border-radius: 40px;
+            padding: 14px 24px;
+            font-size: 0.95rem;
+            width: 100%;
+            max-width: 460px;
+            outline: none;
+            color: var(--text-primary);
+            font-family: var(--font-body);
+            transition: var(--transition-smooth);
+            letter-spacing: 0.02em;
+        }
+        .search-field:focus {
+            box-shadow: var(--outset-shadow-lg);
+            max-width: 520px;
+            border: 1px solid rgba(197, 168, 128, 0.5);
+        }
+
+        /* ============ BUTTON SYSTEM ============ */
+        .btn-tactile {
+            display: inline-block;
+            background: var(--canvas);
+            box-shadow: var(--outset-shadow);
+            border: none;
+            padding: 14px 32px;
+            border-radius: 35px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            letter-spacing: 0.04em;
+            cursor: pointer;
+            color: var(--text-primary);
+            transition: var(--transition-smooth);
+            text-decoration: none;
+            font-family: var(--font-body);
+            text-align: center;
+        }
+        .btn-tactile:hover {
+            box-shadow: var(--outset-shadow-lg);
+            transform: scale(1.03);
+        }
+        .btn-tactile:active {
+            box-shadow: var(--pressed-shadow);
+            transform: scale(0.95);
+        }
+        .btn-gold {
+            color: var(--accent-bronze);
+            border: var(--gold-line-strong);
+        }
+
+        /* ============ FOOTER ============ */
+        .footer-strip {
+            text-align: center;
+            padding: 30px 0;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            letter-spacing: 0.04em;
+            border-top: var(--gold-line);
+            margin-top: 40px;
+        }
+        .footer-strip a {
+            color: var(--accent-bronze);
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition-smooth);
+        }
+        .footer-strip a:hover {
+            letter-spacing: 0.08em;
+        }
+
+        /* ============ RESPONSIVE ============ */
+        @media (max-width: 900px) {
+            .nav-links {
+                gap: 14px;
+                font-size: 0.8rem;
+            }
+            .nav-bar {
+                padding: 12px 18px;
+                border-radius: 25px;
+            }
+            .hero-section {
+                flex-direction: column-reverse;
+                text-align: center;
+                padding: 30px 0;
+            }
+            .hero-image-frame {
+                flex: 0 0 240px;
+                width: 240px;
+                height: 280px;
+            }
+            .hero-quote {
+                border-left: none;
+                border-top: 3px solid var(--accent-gold);
+                padding-left: 0;
+                padding-top: 14px;
+            }
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+            .nav-toggle {
+                display: flex;
+            }
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 80px;
+                left: 16px;
+                right: 16px;
+                flex-direction: column;
+                background: var(--canvas);
+                border-radius: var(--radius-md);
+                box-shadow: var(--outset-shadow-lg);
+                padding: 20px;
+                gap: 12px;
+                z-index: 99;
+            }
+            .nav-links.open {
+                display: flex;
+            }
+            .mockup-3d-container {
+                height: 280px;
+            }
+            .mockup-3d-inner {
+                width: 200px;
+                height: 200px;
+            }
+            .mockup-floor-1 {
+                width: 170px;
+                height: 170px;
+                left: 15px;
+            }
+            .mockup-floor-2 {
+                width: 140px;
+                height: 140px;
+                bottom: 35px;
+                left: 30px;
+            }
+            .mockup-floor-3 {
+                width: 105px;
+                height: 105px;
+                bottom: 75px;
+                left: 48px;
+            }
+        }
+        @media (max-width: 500px) {
+            .hero-text h1 {
+                font-size: 1.6rem;
+            }
+            .card {
+                padding: 20px 16px;
+            }
+            .btn-tactile {
+                padding: 12px 22px;
+                font-size: 0.8rem;
+            }
+            .nav-logo {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ==================== SVG ANIMATED BACKGROUND ==================== -->
+    <div id="bg-svg-container">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
+            <line class="bg-grid-line" x1="0" y1="200" x2="1440" y2="200"/>
+            <line class="bg-grid-line" x1="0" y1="450" x2="1440" y2="450"/>
+            <line class="bg-grid-line" x1="0" y1="700" x2="1440" y2="700"/>
+            <line class="bg-grid-line" x1="300" y1="0" x2="300" y2="900"/>
+            <line class="bg-grid-line" x1="750" y1="0" x2="750" y2="900"/>
+            <line class="bg-grid-line" x1="1100" y1="0" x2="1100" y2="900"/>
+            <circle class="bg-dot" cx="200" cy="180" r="3"/>
+            <circle class="bg-dot" cx="650" cy="320" r="2.8"/>
+            <circle class="bg-dot" cx="1050" cy="150" r="3.2"/>
+            <circle class="bg-dot" cx="400" cy="600" r="2.5"/>
+            <circle class="bg-dot" cx="900" cy="500" r="3.5"/>
+            <circle class="bg-dot" cx="1200" cy="700" r="2.6"/>
+            <circle class="bg-dot" cx="150" cy="750" r="3"/>
+            <circle class="bg-dot" cx="700" cy="800" r="2.9"/>
+        </svg>
+    </div>
+
+    <!-- ==================== MAIN WRAPPER ==================== -->
+    <div class="main-wrapper">
+
+        <!-- NAVIGATION -->
+        <nav class="nav-bar" id="navbar">
+            <div class="nav-logo">Kunal<span>Pratap</span>Singh</div>
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+                <span></span><span></span><span></span>
+            </button>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#advisor">Philosophy</a></li>
+                <li><a href="#tech">Tech Matrix</a></li>
+                <li><a href="#projects">Portfolios</a></li>
+                <li><a href="#compliance">Compliance</a></li>
+                <li><a href="#crossborder">Global Ready</a></li>
+                <li><button class="nav-cta" onclick="document.getElementById('contactSearch').focus()">Connect</button></li>
+            </ul>
+        </nav>
+
+        <!-- ============ SECTION 1: ADVISOR CHASSIS & CORE PHILOSOPHY ============ -->
+        <section id="advisor" class="hero-section">
+            <div class="hero-text">
+                <span class="hero-badge">Senior Wealth Advisor &amp; Technical Asset Architect</span>
+                <h1>Kunal Pratap Singh</h1>
+                <h2>Strategic Wealth Consultant - Global Birth Developers, Noida/Delhi-NCR</h2>
+                <p class="hero-quote">
+                    "I don't push property transactions; I structure secure, capital-protected, high-yield asset portfolios
+                    across emerging corridors. My focus is market-transition validation and orchestrating cross-border
+                    wealth deployment - from India to global hubs like Dubai - with institutional precision."
+                </p>
+                <div style="margin-top:18px;">
+                    <a href="#projects" class="btn-tactile btn-gold">Explore Portfolio Assets</a>
+                </div>
+            </div>
+            <div class="hero-image-frame">
+                <div class="hero-accent-ring"></div>
+                <div class="hero-image-inner">
+                    <img src="my image.jpeg" alt="Kunal Pratap Singh" />
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ SECTION 2: TECH INTEGRATION & MARKETING MOAT ============ -->
+        <section id="tech">
+            <div class="section-header">
+                <h2>Technical Architecture &amp; Operational Matrix</h2>
+                <span class="gold-micro-line"></span>
+            </div>
+            <p style="text-align:center;max-width:720px;margin:0 auto;color:var(--text-secondary);font-size:0.95rem;">
+                Leveraging 3D spatial visualization, immersive graphic design, and advanced automated
+                user-acquisition pipelines to filter raw macro-market records into institutional liquid conversions.
+                Explore the full digital repository at
+                <a href="https://kunal1959.github.io/My-portfolio/" target="_blank" rel="noopener"
+                style="color:var(--accent-bronze);font-weight:600;text-decoration:none;">kunal1959.github.io/My-portfolio</a>.
+            </p>
+            <div class="tech-grid">
+                <div class="tech-pill">Graphic Design &amp; Visual Identity</div>
+                <div class="tech-pill">Immersive 3D Artistry</div>
+                <div class="tech-pill">Interactive Front-End Development</div>
+                <div class="tech-pill">Secure Automated Acquisition Pipelines</div>
+                <div class="tech-pill">Data-Driven Market Analytics</div>
+                <div class="tech-pill">Cross-Platform UX Engineering</div>
+            </div>
+
+            <!-- Self-Drawing Flowchart: Section 143 Procedural Framework -->
+            <div class="flowchart-container" id="flowchartContainer">
+                <h3 style="font-family:var(--font-heading);color:var(--text-primary);margin-bottom:16px;">Section 143 Procedural Framework - Self-Drawing Vector</h3>
+                <svg viewBox="0 0 700 220" xmlns="http://www.w3.org/2000/svg" style="max-width:100%;">
+                    <rect class="flowchart-node" x="20" y="60" width="130" height="50" rx="8" fill="#F0F0F3" stroke="#C5A880" stroke-width="2"/>
+                    <text class="flowchart-text" x="85" y="85" font-size="11">Land Acquisition</text>
+                    <rect class="flowchart-node" x="240" y="60" width="130" height="50" rx="8" fill="#F0F0F3" stroke="#C5A880" stroke-width="2"/>
+                    <text class="flowchart-text" x="305" y="85" font-size="11">Sec 143 Conversion</text>
+                    <rect class="flowchart-node" x="460" y="60" width="130" height="50" rx="8" fill="#F0F0F3" stroke="#C5A880" stroke-width="2"/>
+                    <text class="flowchart-text" x="525" y="85" font-size="11">Title Validation</text>
+                    <rect class="flowchart-node" x="460" y="150" width="130" height="50" rx="8" fill="#F0F0F3" stroke="#C5A880" stroke-width="2"/>
+                    <text class="flowchart-text" x="525" y="175" font-size="11">Liquidity Network</text>
+                    <path class="flowchart-path" id="flowPath1" d="M150 85 L240 85"/>
+                    <path class="flowchart-path" id="flowPath2" d="M370 85 L460 85"/>
+                    <path class="flowchart-path" id="flowPath3" d="M525 110 L525 150"/>
+                </svg>
+            </div>
+        </section>
+
+        <!-- ============ SECTION 3: PROJECTS CORE DEPLOYMENT METRICS ============ -->
+        <section id="projects">
+            <div class="section-header">
+                <h2>High-Yield Legacy Portfolios - Global Birth Developers</h2>
+                <span class="gold-micro-line"></span>
+            </div>
+            <div class="card-grid">
+                <!-- Portfolio A -->
+                <div class="card" data-animate>
+                    <div class="card-accent-strip"></div>
+                    <div class="arch-svg-frame">
+                        <img src="Nature%22s%20Reatreat.jpeg" alt="Nature Retreat portfolio" style="width:100%;height:100%;object-fit:cover;display:block;" />
+                    </div>
+                    <h3>Portfolio A: Nature Retreat's</h3>
+                    <p><strong>Bhujiyaghat Corridor</strong> - High-occupancy managed transit studios on NH-109, strategically
+                        positioned just 7.4 KM from Kathgodam railway nexus. Engineered for consistent rental yield and capital
+                    appreciation in a rapidly developing transit zone.</p>
+                    <span class="metric-tag">7.4 KM Rail Nexus</span>
+                    <span class="metric-tag">NH-109 Frontage</span>
+                </div>
+
+                <!-- Portfolio B -->
+                <div class="card" data-animate>
+                    <div class="card-accent-strip"></div>
+                    <div class="arch-svg-frame">
+                        <img src="corbett_eye.jpeg" alt="Corbett Eye portfolio" style="width:100%;height:100%;object-fit:cover;display:block;" />
+                    </div>
+                    <h3>Portfolio B: Corbett Eye</h3>
+                    <p><strong>Udaipuri Chopra</strong> - Premium gated land equity on NH-309 directly bordering Hanuman Dham.
+                        Engineered with pre-converted Section 143 compliance, ensuring seamless title transfer and institutional
+                    safety for out-of-state investors.</p>
+                    <span class="metric-tag">Sec 143 Compliant</span>
+                    <span class="metric-tag">NH-309 Bordering</span>
+                </div>
+
+                <!-- Portfolio C -->
+                <div class="card" data-animate>
+                    <div class="card-accent-strip"></div>
+                    <div class="arch-svg-frame">
+                        <img src="corbett_aqua.jpeg" alt="Corbett Aqua portfolio" style="width:100%;height:100%;object-fit:cover;display:block;" />
+                    </div>
+                    <h3>Portfolio C: Corbett Aqua</h3>
+                    <p><strong>Tumaria Dam Reservoir</strong> - Maldives-inspired 3-Acre premium waterfront township featuring
+                        111, 125, and 138 Sq. Yard layouts. Optimized for instant pre-launch arbitrage gains with exceptional
+                    scarcity value in the Corbett ecosystem.</p>
+                    <span class="metric-tag">3-Acre Waterfront</span>
+                    <span class="metric-tag">Pre-Launch Arbitrage</span>
+                </div>
+            </div>
+
+            <!-- Wealth Distribution Vector -->
+            <div class="wealth-vector-wrap">
+                <svg viewBox="0 0 500 160" xmlns="http://www.w3.org/2000/svg" style="max-width:500px;">
+                    <text x="250" y="18" text-anchor="middle" font-size="11" fill="#3a3f55" font-weight="600" font-family="sans-serif">Global Cross-Border Allocation Logic</text>
+                    <circle cx="120" cy="80" r="45" fill="none" stroke="#C5A880" stroke-width="2" stroke-dasharray="8 5"/>
+                    <circle cx="120" cy="80" r="28" fill="rgba(197,168,128,0.2)" stroke="#C5A880" stroke-width="1.5"/>
+                    <text x="120" y="78" text-anchor="middle" font-size="10" fill="#1a1d2e" font-weight="700">India</text>
+                    <text x="120" y="93" text-anchor="middle" font-size="8" fill="#5a5f72">Origin Capital</text>
+                    <circle cx="350" cy="55" r="32" fill="none" stroke="#C5A880" stroke-width="2" stroke-dasharray="6 4"/>
+                    <text x="350" y="53" text-anchor="middle" font-size="9" fill="#1a1d2e" font-weight="700">Dubai</text>
+                    <text x="350" y="66" text-anchor="middle" font-size="7" fill="#5a5f72">Tax-Free Hub</text>
+                    <circle cx="350" cy="115" r="28" fill="none" stroke="#C5A880" stroke-width="1.8" stroke-dasharray="5 4"/>
+                    <text x="350" y="113" text-anchor="middle" font-size="9" fill="#1a1d2e" font-weight="700">SEA</text>
+                    <text x="350" y="126" text-anchor="middle" font-size="7" fill="#5a5f72">Emerging Markets</text>
+                    <line x1="165" y1="72" x2="318" y2="58" stroke="#C5A880" stroke-width="1.8" stroke-dasharray="5 4"/>
+                    <line x1="160" y1="88" x2="322" y2="108" stroke="#C5A880" stroke-width="1.5" stroke-dasharray="4 5"/>
+                </svg>
+            </div>
+        </section>
+
+        <!-- ============ 3D ARCHITECTURAL MOCKUP ============ -->
+        <div class="section-header">
+            <h2>Immersive AR/VR &amp; 3D Spatial Tour Matrix</h2>
+            <span class="gold-micro-line"></span>
+        </div>
+        <p style="text-align:center;max-width:600px;margin:0 auto 10px;color:var(--text-secondary);font-size:0.9rem;">
+            Interactive CSS-simulated digital 3D layout footprint - a live spatial preview of township grid architecture.
+        </p>
+        <div class="mockup-3d-container">
+            <div class="mockup-3d-inner">
+                <div class="mockup-floor mockup-floor-1"></div>
+                <div class="mockup-floor mockup-floor-2"></div>
+                <div class="mockup-floor mockup-floor-3"></div>
+                <div class="mockup-pillar" style="height:60px;bottom:0;left:44px;"></div>
+                <div class="mockup-pillar" style="height:60px;bottom:0;left:228px;"></div>
+                <div class="mockup-pillar" style="height:40px;bottom:50px;left:70px;"></div>
+                <div class="mockup-pillar" style="height:40px;bottom:50px;left:190px;"></div>
+            </div>
+        </div>
+
+        <!-- ============ SECTION 4: LEGAL & RISK MITIGATION PROTOCOL ============ -->
+        <section id="compliance">
+            <div class="section-header">
+                <h2>Institutional Compliance &amp; Capital Safety Architecture</h2>
+                <span class="gold-micro-line"></span>
+            </div>
+            <div class="card" data-animate style="max-width:800px;margin:20px auto;transform:scale(0.95);opacity:1;">
+                <div class="card-accent-strip"></div>
+                <img src="institutional%20compliance%20and%20capital%20safety.png" alt="Institutional Compliance & Capital Safety" style="width:100%;max-height:300px;object-fit:cover;border-radius:14px;margin-bottom:16px;">
+                <p style="font-size:0.95rem;color:var(--text-secondary);line-height:1.8;">
+                    <strong>Navigating the 2,700 Sq. Ft. Land Cap Rule:</strong> Out-of-state buyers often face regulatory
+                    friction when acquiring agricultural or semi-urban land parcels exceeding statutory ceilings. Our
+                    institutional framework circumvents this through <em>pre-converted corporate layouts</em> - each plot is
+                    legally restructured under Section 143 compliance before listing, ensuring that the buyer receives a
+                    fully validated, title-clear asset with no post-purchase conversion risk. This protocol guarantees
+                    secure title validation, eliminates legacy encumbrance exposure, and establishes reliable long-term
+                    secondary liquidity networks - meaning your asset remains both protected and tradable from day one.
+                </p>
+                <p style="font-size:0.9rem;color:var(--text-muted);margin-top:12px;">
+                    Every portfolio asset undergoes a rigorous three-stage audit: <strong>(1)</strong> Chain-of-title
+                    verification through sub-registrar archives, <strong>(2)</strong> Physical survey reconciliation with
+                    revenue records, and <strong>(3)</strong> Institutional legal opinion from empaneled counsel. This
+                    tri-layered protocol is what transforms a simple land parcel into an institutional-grade wealth
+                    preservation instrument.
+                </p>
+                <span class="metric-tag">Sec 143 Pre-Converted</span>
+                <span class="metric-tag">Title Clear Guarantee</span>
+                <span class="metric-tag">Secondary Liquidity Ready</span>
+            </div>
+        </section>
+
+        <!-- ============ SECTION 5: CROSS-BORDER READY MATRIX ============ -->
+        <section id="crossborder">
+            <div class="section-header">
+                <h2>The Cross-Border Ready Matrix</h2>
+                <span class="gold-micro-line"></span>
+            </div>
+            <div class="card" data-animate style="max-width:800px;margin:20px auto;text-align:center;transform:scale(0.95);opacity:1;border:var(--gold-line-strong);">
+                <div class="card-accent-strip"></div>
+                <img src="cross%20boarder%20ready%20matrix.png" alt="Cross-Border Ready Matrix" style="width:100%;max-height:300px;object-fit:cover;border-radius:14px;margin-bottom:16px;">
+                <h3 style="font-size:1.4rem;color:var(--accent-bronze);">Absolute Readiness Declaration</h3>
+                <p style="font-size:1rem;color:var(--text-primary);font-weight:500;line-height:1.7;">
+                    I stand fully equipped - strategically, logistically, and technologically - to deploy elite Indian
+                    capital into cross-border, tax-free international real estate preservation channels. From the
+                    emerging corridors of NCR to the global financial sanctuary of Dubai, my operational infrastructure
+                    is calibrated for instantaneous market entry, secure transaction orchestration, and long-horizon
+                    wealth compounding. This is not aspiration; this is engineered readiness.
+                </p>
+                <div style="margin-top:16px;">
+                    <span class="metric-tag">India → Dubai Pipeline</span>
+                    <span class="metric-tag">Tax-Free Structuring</span>
+                    <span class="metric-tag">Institutional Execution</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Search Field -->
+        <div class="search-field-wrap">
+            <input type="text" class="search-field" id="contactSearch" placeholder="Search portfolio assets, compliance frameworks, or cross-border pathways...">
+        </div>
+
+        <!-- CTA -->
+        <div style="text-align:center;padding:20px 0 40px;">
+            <a href="https://kunal1959.github.io/My-portfolio/" target="_blank" rel="noopener" class="btn-tactile btn-gold" style="font-size:1rem;">
+                View Full Digital Portfolio →
+            </a>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer-strip">
+            <p>&copy; 2026 Kunal Pratap Singh - Senior Wealth Advisor &amp; Technical Asset Architect. All rights reserved.
+                <br><a href="https://kunal1959.github.io/My-portfolio/" target="_blank" rel="noopener">Digital Repository</a> |
+                Global Birth Developers, Noida/Delhi-NCR | Cross-Border Ready.
+            </p>
+        </div>
+
+    </div><!-- END MAIN WRAPPER -->
+
+    <!-- ==================== JAVASCRIPT ==================== -->
+    <script>
+        (function() {
+            // === NAV TOGGLE (Mobile) ===
+            const navToggle = document.getElementById('navToggle');
+            const navLinks = document.getElementById('navLinks');
+            if (navToggle && navLinks) {
+                navToggle.addEventListener('click', function() {
+                    navLinks.classList.toggle('open');
+                });
+                // Close nav on link click (mobile)
+                navLinks.querySelectorAll('a').forEach(function(link) {
+                    link.addEventListener('click', function() {
+                        navLinks.classList.remove('open');
+                    });
+                });
+            }
+
+            // === INTERSECTION OBSERVER for scroll-triggered animations ===
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px 0px -60px 0px',
+                threshold: 0.18
+            };
+
+            const observerCallback = function(entries) {
+                entries.forEach(function(entry) {
+                    if (entry.isIntersecting) {
+                        const el = entry.target;
+                        // Cards
+                        if (el.hasAttribute('data-animate') && el.classList.contains('card')) {
+                            el.classList.add('visible');
+                        }
+                        // Flowchart SVG paths
+                        if (el.id === 'flowchartContainer') {
+                            const paths = el.querySelectorAll('.flowchart-path');
+                            paths.forEach(function(path, i) {
+                                setTimeout(function() {
+                                    path.classList.add('animate');
+                                }, i * 400);
+                            });
+                        }
+                    }
+                });
+            };
+
+            const observer = new IntersectionObserver(observerCallback, observerOptions);
+
+            // Observe all cards with data-animate
+            document.querySelectorAll('.card[data-animate]').forEach(function(card) {
+                observer.observe(card);
+            });
+
+            // Observe flowchart container
+            const flowchartContainer = document.getElementById('flowchartContainer');
+            if (flowchartContainer) {
+                observer.observe(flowchartContainer);
+            }
+
+            // === TACTILE BUTTON CLICK FEEDBACK ===
+            document.querySelectorAll('.btn-tactile, .nav-cta').forEach(function(btn) {
+                btn.addEventListener('mousedown', function() {
+                    this.style.boxShadow = 'inset 6px 6px 14px rgba(163,177,198,0.65), inset -6px -6px 14px rgba(255,255,255,0.7)';
+                    this.style.transform = 'scale(0.94)';
+                });
+                btn.addEventListener('mouseup', function() {
+                    this.style.boxShadow = '';
+                    this.style.transform = '';
+                });
+                btn.addEventListener('mouseleave', function() {
+                    this.style.boxShadow = '';
+                    this.style.transform = '';
+                });
+                btn.addEventListener('touchstart', function() {
+                    this.style.boxShadow = 'inset 6px 6px 14px rgba(163,177,198,0.65), inset -6px -6px 14px rgba(255,255,255,0.7)';
+                    this.style.transform = 'scale(0.94)';
+                }, { passive: true });
+                btn.addEventListener('touchend', function() {
+                    this.style.boxShadow = '';
+                    this.style.transform = '';
+                });
+            });
+
+            // === SEARCH FIELD FOCUS EXPANSION (already handled via CSS :focus) ===
+            const searchField = document.getElementById('contactSearch');
+            if (searchField) {
+                searchField.addEventListener('focus', function() {
+                    this.placeholder = 'Type to explore assets, compliance, or global pathways...';
+                });
+                searchField.addEventListener('blur', function() {
+                    this.placeholder = 'Search portfolio assets, compliance frameworks, or cross-border pathways...';
+                });
+            }
+
+            // === INITIAL LOAD: Trigger visible cards that are already in view ===
+            setTimeout(function() {
+                document.querySelectorAll('.card[data-animate]').forEach(function(card) {
+                    const rect = card.getBoundingClientRect();
+                    if (rect.top < window.innerHeight && rect.bottom > 0) {
+                        card.classList.add('visible');
+                    }
+                });
+                // Check flowchart
+                if (flowchartContainer) {
+                    const fRect = flowchartContainer.getBoundingClientRect();
+                    if (fRect.top < window.innerHeight && fRect.bottom > 0) {
+                        const paths = flowchartContainer.querySelectorAll('.flowchart-path');
+                        paths.forEach(function(path, i) {
+                            setTimeout(function() {
+                                path.classList.add('animate');
+                            }, i * 400);
+                        });
+                    }
+                }
+            }, 300);
+
+            // === SMOOTH NAV SCROLL OFFSET (account for sticky nav) ===
+            document.querySelectorAll('.nav-links a[href^="#"]').forEach(function(anchor) {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    const targetEl = document.querySelector(targetId);
+                    if (targetEl) {
+                        const navHeight = document.getElementById('navbar')?.offsetHeight || 72;
+                        const targetPosition = targetEl.getBoundingClientRect().top + window.pageYOffset -
+                            navHeight - 24;
+                        window.scrollTo({ top: targetPosition, behavior: 'smooth' });
+                    }
+                });
+            });
+
+            console.log('%c Kunal Pratap Singh - Neuromorphic Portfolio Active %c| %cCross-Border Ready Matrix Engaged',
+                'color:#C5A880;font-weight:bold;font-size:14px;',
+                'color:#5a5f72;',
+                'color:#1a1d2e;font-weight:bold;');
+        })();
+    </script>
+</body>
+</html>
